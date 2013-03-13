@@ -1,0 +1,151 @@
+<!doctype html>
+<html manifest="app.appcache">
+<head>
+<link rel="shortcut icon" type="image/x-icon" href="css/i/favicon.ico">
+<!-- 三种尺寸，都必须是png 图片 -->
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="css/i/ico57.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="css/i/ico72.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="css/i/ico114.png">
+<!-- 320*460 都必须是png 图片-->
+<link rel="apple-touch-startup-image" href="css/i/startup.png">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>搜狐微博</title>
+<script src="./lib/iscroll.js"></script>
+<script src="./lib/jq.mobi.js"></script>
+<script src="./lib/touch.js"></script>
+<script src="./Mstar/Mstar.js"></script>
+<link rel="stylesheet" href="./css/c/i.css">
+</head>
+<body>
+	<div class="box" id="box1" style="">
+		<div style="display:-webkit-box;-webkit-box-align:center;-webkit-box-pack:center;width:100%;height:100%;-webkit-box-orient: vertical;">
+		    <div style="width:114px;height:114px;background:url(./css/i/ico114.png) no-repeat center;"></div>
+			<div style="margin-top:10px;color:rgb(235, 70, 39)">搜狐微博欢迎您</div>
+		</div>
+	</div>
+	<div class="box" id="box2" style="display: none">
+	    <header>
+		    <div class="center left back">
+			    <i></i>
+			</div>
+			<p>header</p>
+			<div class="center right">
+			    <i></i>
+			</div>
+		</header>
+		<div class="body">
+			<div class="wrapper">
+				<div class="ctr">
+				    <div class="head" style="background:url(http://s5.cr.itc.cn/mblog/icon/60/c7/m_69403172714226736.png) no-repeat center;"></div>
+					<div class="content">
+						<div class="title">我们的日子里</div>
+						<div class="says">adf电饭煲v大发生波士顿分别放到地方跟第三方播放的白癜风是白癜风菲达环保发生部分</div>
+						<div class="media" style="background:url(http://s3.t.itc.cn/mblog/pic/20131_17_18/nzipz465510557482.jpg) no-repeat center;"></div>
+					</div>
+				</div>
+				<div class="ctr">
+					这里是评论内容
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box" id="loading" style="-webkit-transform: translate3d(-100%, 0, 0)">
+	    <div class="loadEle center">
+		    <i></i>
+		</div>
+	</div>
+	<script>
+	    require('app', function() {
+		    
+		});
+	</script>
+    <script id="tpl_header" type="text/tpl">
+        <header class="hdw <% if(showBack) { %> hasback <% } %>">
+		    <div class="btn center left back">
+			    <i></i>
+			</div>
+			<div class="btn menu center left">
+			    <i></i>
+			</div>
+			<p><%= content %></p>
+			<div class="btn center right">
+			    <i></i>
+			</div>
+		</header>
+    </script>
+	<script id="tpl_body" type="text/tpl">
+	    <div class="body">
+		    <div class="wrapper">
+			</div>
+		</div>
+	</script>
+	<script id="tpl_list" type="text/tpl">
+		<div>
+			<div class="list">	
+			</div>
+		</div>
+    </script>
+	<!------------方便加载更多----------->
+	<script id="tpl_item" type="text/tpl">
+	    <% for (var i = 0, len = docs.length, tmp, source; i < len; i++) { tmp = docs[i]; %>
+			<div class="item">
+				<% if (!profile) { %>
+				    <div class="head" data-href="#/profile.do?v_u=<%= tmp.user.id %>" style="background:url(<%= tmp.user.icon %>) no-repeat center;"></div>
+				<% } %>
+				<div class="content">
+					<% if (!profile) { %>
+					    <div class="title"><%= tmp.user.name %></div>
+					<% } %>
+					<div class="says"><%= tmp.text %></div>
+					<% if ((source = tmp.sourceMsg)) { %>
+					    <div class="source">
+						    <div class="title"><%= source.user.name %></div>
+					        <div class="says"><%= source.text %></div>
+						</div>
+					<% } %>
+					<% if (tmp.media) { %>
+					    <div class="media" data-delay="<%= tmp.bigPicPath %>"></div>
+					<% } %>
+					<div class="time"><%= tmp.createdOn %></div>
+				</div>
+			</div>
+		<% } %>
+	</script>
+	<script id="tpl_card" type="text/tpl">
+	    <div class="card">
+			<div class="ctr">
+				<div class="usr" style="background-image:url(<%= user.m_icon %>)"></div>
+				<div class="content">
+					<div class="title"><%= user.name %></div>
+					<div class="des"><%= user.description %></div>
+					<div class="btn btnAdded">已关注</div>
+					<div class="handler">操作...</div>
+				</div>
+			</div>
+			<menu class="tabs">
+				<li <% if (profileTpl) {%> class="on" <% } %> data-tab="profile"><%=user.msg_count%><i>微博</i></li>
+				<li <% if (followersTpl) {%> class="on" <% } %> data-tab="followers"><%=user.followers_count%><i>粉丝</i></li>
+				<li <% if (followingTpl) {%> class="on" <% } %> data-tab="following"><%=user.following_count%><i>关注</i></li>
+			</menu>
+		</div>
+	</script>
+	<script id="tpl_follow_item" type="text/tpl">
+	    <% for (var i = 0, len = users.length, tmp, source; i < len; i++) { tmp = users[i]; %>
+			<div class="item follow">
+				<div class="head" data-href="#/profile.do?v_u=<%= tmp.id %>" style="background:url(<%= tmp.icon %>) no-repeat center;"></div>
+				<div class="content">
+					<div class="title"><%= tmp.name %></div>
+					<div class="btnAdded">已关注</div>
+				</div>
+			</div>
+		<% } %>
+	</script>
+	<script id="tpl_more" type="text/tpl">
+	    <div class="btn more" data-moreurl="<%= moreUrl %>">加载更多</div>
+		<div style="height:20px"></div>
+	</script>
+</body>
+</html>
