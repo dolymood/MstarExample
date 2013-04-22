@@ -1,20 +1,37 @@
 /**
  *
  */
-define(['Mstar', 'Event'], function(M, Event) {
+define(['Mstar', 'Event', 'jq'], function(M, Event, $) {
     
 	var navi = window.navigator,
 	    appCache = window.applicationCache,
 	    online = navi.onLine ? true : false;
 	
 	if (online) {
-	    try {
+        online = checkOnLine();
+	}
+	if (online) {
+		try {
 		    appCache.update();
-		} catch(e) {
-		
-		}
+		} catch(e) {}
 	}
 	
+    function checkOnLine() {
+        var ret = true;
+        try {
+            $.ajax({
+            	url: ('http://dev.w.sohu.com/m/a_remind.do?ts=' + new Date()),
+            	async: false,
+            	error: function() {
+            		ret = false;
+            	}
+            });
+        } catch(e) {
+            ret = false;
+        }
+        return ret;
+    }
+
 	window.ononline = function() {
 	    ApplicationCacheSupport.trigger('online');
 		ApplicationCacheSupport.isOnline = true;
