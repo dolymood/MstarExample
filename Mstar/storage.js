@@ -30,7 +30,7 @@ define(['Mstar', 'jq'], function(M, $) {
 			},
 			
 			getItem: function(key) {
-				lStorage.getItem(key);
+				return lStorage.getItem(key);
 			},
 			
 			removeItem: function(key) {
@@ -53,7 +53,7 @@ define(['Mstar', 'jq'], function(M, $) {
 			},
 			
 			getItem: function(key) {
-				sStorage.getItem(key);
+				return sStorage.getItem(key);
 			},
 			
 			removeItem: function(key) {
