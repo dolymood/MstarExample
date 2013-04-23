@@ -32,14 +32,14 @@ define(['Mstar', 'Event', 'jq'], function(M, Event, $) {
         return ret;
     }
 
-	window.ononline = function() {
+	window.addEventListener('online', function() {
 	    ApplicationCacheSupport.trigger('online');
 		ApplicationCacheSupport.isOnline = true;
-	};
-	window.onoffline = function() {
+	});
+	window.addEventListener('offline', function() {
 	    ApplicationCacheSupport.trigger('offline');
 		ApplicationCacheSupport.isOnline = false;
-	};
+	});
 	
 	appCache.addEventListener('updateready', function() {
 		appCache.swapCache();
